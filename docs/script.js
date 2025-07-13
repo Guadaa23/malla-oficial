@@ -86,53 +86,91 @@ const materias = {
   ]
 };
 
-const estadoMaterias = {};
-const container = document.getElementById('malla-container');
+const container = document.getElementById("malla-container");
+const estado = {}; // Guarda qué materias están aprobadas
 
-function crearMalla() {
-  for (const [semestre, listaMaterias] of Object.entries(materias)) {
-    const columna = document.createElement('div');
-    columna.className = 'semestre';
-    const titulo = document.createElement('h2');
-    titulo.textContent = semestre;
-    columna.appendChild(titulo);
+// Crear los semestres como columnas
+for (const [semestre, listaMaterias] of Object.entries(materias)) {
+  const columna = document.createElement("div");
+  columna.className = "semestre";
 
-    listaMaterias.forEach((materia) => {
-      const div = document.createElement('div');
-      div.className = 'materia';
-      div.textContent = materia.nombre;
+  const titulo = document.createElement("h2");
+  titulo.textContent = semestre;
+  columna.appendChild(titulo);
 
-      if (materia.requiere) div.classList.add('bloqueada');
+  listaMaterias.forEach((materia) => {
+    const div = document.createElement("div");
+    div.className = "materia";
+    div.textContent = materia.nombre;
+    div.dataset.nombre = materia.nombre;
 
-      div.addEventListener('click', () => {
-        if (div.classList.contains('bloqueada')) return;
+    if (materia.requiere) {
+      div.classList.add("bloqueada");
+    }
 
-        div.classList.toggle('aprobada');
-        estadoMaterias[materia.nombre] = div.classList.contains('aprobada');
-        actualizarBloqueos();
-      });
+    div.addEventListener("click", () => {
+      if (div.classList.contains("bloqueada")) return;
 
-      materia.elemento = div;
-      columna.appendChild(div);
+      const aprobada = div.classList.toggle("aprobada");
+      estado[materia.nombre] = aprobada;
+
+      actualizarBloqueos();
+      guardarEstado();
     });
 
-    container.appendChild(columna);
-  }
+    columna.appendChild(div);
+  });
+
+  container.appendChild(columna);
 }
 
+// Habilita o bloquea materias según correlativas
 function actualizarBloqueos() {
-  for (const listaMaterias of Object.values(materias)) {
-    listaMaterias.forEach((materia) => {
-      if (!materia.requiere || !materia.elemento) return;
+  document.querySelectorAll(".materia").forEach((div) => {
+    const nombre = div.dataset.nombre;
+    const materia = buscarMateria(nombre);
 
-      const aprobadas = materia.requiere.every((req) => estadoMaterias[req]);
-      if (aprobadas) {
-        materia.elemento.classList.remove('bloqueada');
-      } else {
-        materia.elemento.classList.add('bloqueada');
-      }
-    });
-  }
+    if (!materia.requiere) return;
+
+    const requisitosCumplidos = materia.requiere.every((req) => estado[req]);
+    if (requisitosCumplidos) {
+      div.classList.remove("bloqueada");
+    } else {
+      div.classList.add("bloqueada");
+    }
+  });
 }
 
-crearMalla();
+// Buscar la definición de una materia en el objeto
+function buscarMateria(nombre) {
+  for (const lista of Object.values(materias)) {
+    for (const mat of lista) {
+      if (mat.nombre === nombre) return mat;
+    }
+  }
+  return null;
+}
+
+// Guardar estado en localStorage para que se mantenga al recargar
+function guardarEstado() {
+  localStorage.setItem("estadoMaterias", JSON.stringify(estado));
+}
+
+// Al cargar la página, restaurar el estado guardado
+function restaurarEstado() {
+  const datos = JSON.parse(localStorage.getItem("estadoMaterias"));
+  if (!datos) return;
+
+  Object.entries(datos).forEach(([nombre, aprobado]) => {
+    const div = document.querySelector(`.materia[data-nombre="${nombre}"]`);
+    if (div && aprobado) {
+      div.classList.add("aprobada");
+      estado[nombre] = true;
+    }
+  });
+
+  actualizarBloqueos();
+}
+
+restaurarEstado();
+
