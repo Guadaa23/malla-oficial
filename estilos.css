@@ -1,0 +1,51 @@
+body {
+  background-color: #f1fdf1;
+  font-family: 'Segoe UI', sans-serif;
+  color: #2c4c2c;
+  padding: 2rem;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #2f6b2f;
+}
+
+#malla-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.materia {
+  border: 2px solid #a3d9a5;
+  border-radius: 12px;
+  padding: 1rem;
+  width: 250px;
+  background-color: #dfffe0;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+
+.materia h3 {
+  margin-top: 0;
+  color: #215e21;
+}
+
+.checkbox {
+  margin-top: 0.5rem;
+}
+
+.aprobada {
+  background-color: #b8e8b9 !important;
+  text-decoration: line-through;
+  color: #777;
+}
+
+.bloqueada {
+  opacity: 0.4;
+  pointer-events: none;
+  background-color: #eee;
+  border-color: #ccc;
+}
