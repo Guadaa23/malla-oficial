@@ -1,6 +1,6 @@
 body {
   background-color: #f1fdf1;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Quicksand', sans-serif;
   color: #2c4c2c;
   padding: 2rem;
 }
@@ -12,29 +12,37 @@ h1 {
 }
 
 #malla-container {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1rem;
-  justify-content: center;
+}
+
+.semestre {
+  background-color: #e5ffe6;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 0 10px rgba(0, 50, 0, 0.1);
+}
+
+.semestre h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #236823;
 }
 
 .materia {
   border: 2px solid #a3d9a5;
-  border-radius: 12px;
-  padding: 1rem;
-  width: 250px;
+  border-radius: 10px;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
   background-color: #dfffe0;
-  box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
-  transition: transform 0.2s;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
-.materia h3 {
-  margin-top: 0;
-  color: #215e21;
-}
-
-.checkbox {
-  margin-top: 0.5rem;
+.materia:hover {
+  transform: scale(1.02);
+  background-color: #c9f6ca;
 }
 
 .aprobada {
