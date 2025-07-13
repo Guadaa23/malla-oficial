@@ -19,7 +19,7 @@ const materias = {
     { nombre: "Ecuaciones Diferenciales", requiere: ["Álgebra Lineal", "Cálculo 2"] },
     { nombre: "Análisis Vectorial", requiere: ["Álgebra Lineal", "Cálculo 2"] },
     { nombre: "Probabilidad", requiere: ["Cálculo 2"] },
-    { nombre: "Estática", requiere: ["Álgebra Lineal", "Cálculo 2"] },
+    { nombre: "Estática", requiere: ["Álgebra Lineal", "Mecánica y Calor"] },
     { nombre: "Materiales de Obras Civiles 1", requiere: ["Química General", "Dibujo Técnico"] },
     { nombre: "Geología Aplicada", requiere: ["Química General"] }
   ],
